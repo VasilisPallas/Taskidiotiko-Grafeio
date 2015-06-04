@@ -1,0 +1,100 @@
+﻿-- 1
+
+SELECT onomaPelath 
+
+FROM Pelaths 
+
+JOIN Pelaths_Etairia ON Pelaths.idPelath = Pelaths_Etairia.idPelath
+JOIN Etairia ON Etairia.idEtairias = Pelaths_Etairia.idEtairias
+
+WHERE onomaEtairias = "Aegean Airlines";
+
+
+
+-- 2
+
+SELECT polhAerodromiou 
+
+FROM Aerodromio 
+
+WHERE polhAerodromiou LIKE '%κ%';
+
+
+
+-- 3
+
+SELECT epwnumoPelath
+
+FROM Pelaths
+
+JOIN Plhrwmh
+
+WHERE Pelaths.idPelath = Plhrwmh.idPelath AND troposPlhrwmhs = "μετρητά";
+
+
+
+-- 4
+
+SELECT CONCAT(onomaPelath,'  θέση: ', thesi,'  γεύμα: ', geuma) AS Protimiseis
+
+FROM Pelaths, ProtimisiThesis, ProtimisiGeumatos
+
+WHERE Pelaths.idPelath = ProtimisiThesis.idPelath AND Pelaths.idPelath = ProtimisiGeumatos.idPelath
+
+ORDER BY epwnumoPelath ASC;
+
+
+
+-- 5
+
+SELECT DISTINCT CONCAT(onomaPelath,' ', epwnumoPelath) AS Onomatepwnumo
+
+FROM Pelaths, Krathsh
+WHERE Pelaths.idPelath = Krathsh.idPelath
+
+GROUP BY Onomatepwnumo
+
+HAVING COUNT(Onomatepwnumo) > 20
+
+ORDER BY onomaPelath;
+
+
+
+-- 6
+
+SELECT COUNT(Krathsh.idPraktora) AS Sunolo
+
+FROM Praktoras, Krathsh
+
+WHERE Praktoras.idPraktora = Krathsh.idPraktora
+
+GROUP BY Krathsh.idPraktora
+ORDER BY Sunolo DESC;
+
+
+
+-- 7
+
+SELECT COUNT(Pthsh.idPthshs) AS Pthseis
+
+FROM Aerodromio
+
+JOIN Pthsh_Aerodromio ON Aerodromio.idAerodromiou = Pthsh_Aerodromio.idAerodromiou
+
+JOIN Pthsh ON Pthsh.idPthshs = Pthsh_Aerodromio.idPthshs
+
+WHERE Aerodromio.idAerodromiou = "SKG" AND DATE(Pthsh.hmeromhniaPthshs) = '2013-12-24' ;
+
+
+
+-- 8
+
+SELECT onomaPraktora
+
+FROM Praktoras, Etairia, Krathsh
+
+WHERE Praktoras.idEtairias = Etairia.idEtairias AND Praktoras.idPraktora = Krathsh.idPraktora
+
+AND onomaEtairias = "Aegean Airlines"
+
+ORDER BY COUNT(onomaPraktora) DESC;
